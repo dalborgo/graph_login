@@ -1,22 +1,34 @@
 'use strict';
 
 const express = require('express');
-const graphqlHTTP = require('express-graphql');
 
-const PORT = process.env.PORT || 5000;
+import { ApolloServer } from 'apollo-server-express'
+import typeDefs from './typeDefs'
+import resolvers from './resolvers'
 
-const schema = require('./schemas');
+(async () => {
+  const APP_PORT = 3000
+  try {
+    /* await mongoose.connect(
+       `mongodb://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
+       { useNewUrlParser: true }
+     )*/
+    const app = express()
 
-const app = express();
+    app.disable('x-powered-by')
 
-app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  graphiql: true,
-}));
+    const server = new ApolloServer({
+      typeDefs,
+      resolvers,
+      playground: true
+    })
 
-// start server
-const server = app.listen(PORT, () => {
-  console.log(`Server started at ${ server.address().port }`);
-});
+    server.applyMiddleware({ app })
 
-module.exports = server;
+    app.listen({ port: APP_PORT }, () =>
+      console.log(`http://localhost:${APP_PORT}${server.graphqlPath}`)
+    )
+  } catch (e) {
+    console.error(e)
+  }
+})()

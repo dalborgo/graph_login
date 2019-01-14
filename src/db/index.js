@@ -1,28 +1,17 @@
 'use strict';
 
-const config = require('./config');
 const couchbase = require('couchbase');
 
-const endpoint = config.couchbase.endpoint;
-const bucket = config.couchbase.bucket;
-const myCluster = new couchbase.Cluster(endpoint, function(err) {
-  if (err) {
-    console.log("Can't connect to couchbase: %s", err);
-  }
-  console.log('connected to db %s', endpoint);
-});
+const cluster = new couchbase.Cluster(`couchbase://10.0.2.36`)
+const auth = {username: 'ottoman', password: '902100'}
+cluster.authenticate(auth);
+const bucket = cluster.openBucket('ottoman')
 
-const myBucket = myCluster.openBucket(bucket, function(err) {
-  if (err) {
-    console.log("Can't connect to bucket: %s", err);
-  }
-  console.log('connected to bucket %s', bucket);
-});
 
-let ottoman = require('ottoman');
-ottoman.store = new ottoman.CbStoreAdapter(myBucket, couchbase);
+const ottoman = require('ottoman');
+ottoman.store = new ottoman.CbStoreAdapter(bucket, couchbase);
 
 module.exports = {
-  bucket: myBucket,
-  ottoman: ottoman,
+  bucket,
+  ottoman
 };
