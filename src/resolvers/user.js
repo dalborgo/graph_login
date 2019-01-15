@@ -14,10 +14,10 @@ export default {
             reject(err)
           }
           resolve(users)
-        });
+        })
       })
     },
-    user: (root, {id}, context, info) => {
+    user: (root, { id }, context, info) => {
       // TODO: auth, projection, sanitization
 
       /* if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -39,18 +39,20 @@ export default {
     signUp: async (root, args, context, info) => {
       // TODO: not auth, validation
 
-      await Joi.validate(args, signUp, {abortEarly: false})
+      await Joi.validate(args, signUp, { abortEarly: false })
       return new Promise((resolve, reject) => {
-        User.createAndSave(args.username,
+        User.createAndSave(
+          args.username,
           args.email,
           args.name,
           args.password,
           (err, user) => {
-          if (err) {
-            reject(err)
-          }
-          resolve(user)
-        })
+            if (err) {
+              reject(err)
+            } else {
+              resolve(user)
+            }
+          })
       })
     }
   }
