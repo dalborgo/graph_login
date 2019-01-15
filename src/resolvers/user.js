@@ -2,7 +2,6 @@ import Joi from 'joi'
 //import { UserInputError } from 'apollo-server-express'
 import { signUp } from '../schemas'
 import { User } from '../models'
-
 export default {
   Query: {
     users: () => {
@@ -40,20 +39,8 @@ export default {
       // TODO: not auth, validation
 
       await Joi.validate(args, signUp, { abortEarly: false })
-      return new Promise((resolve, reject) => {
-        User.createAndSave(
-          args.username,
-          args.email,
-          args.name,
-          args.password,
-          (err, user) => {
-            if (err) {
-              reject(err)
-            } else {
-              resolve(user)
-            }
-          })
-      })
+      await User.check_email(args.email)
+      return User.createAndSave(args)
     }
   }
 }

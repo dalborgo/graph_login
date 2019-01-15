@@ -1,11 +1,10 @@
 import bcrypt from 'bcryptjs'
-
-const couchbase = require('couchbase')
+import util from 'util'
 const {
   ottoman,
   bucket,
 } = require('../db')
-
+const _throw = m => {throw m}
 const User = ottoman.model('User', {
   username: {type: 'string', readonly: true},
   email: 'string',
@@ -18,15 +17,11 @@ User.pre('save', function (user, next) {
   this.password = bcrypt.hashSync(this.password, 10)
   next()
 })
+const create = util.promisify(User.create.bind(User))
+const count = util.promisify(User.count.bind(User))
+User.check_email = async email => await count({ email }) && _throw('Duplicated: ' + email)
 
-User.createAndSave = function (username, email, name, password, done) {
-  this.create({
-    username,
-    email,
-    name,
-    password
-  }, done)
-}
+User.createAndSave = async args => await create({...args})
 
 ottoman.ensureIndices(function (err) {
   if (err) {
