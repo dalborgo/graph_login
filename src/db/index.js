@@ -8,4 +8,7 @@ const bucket = cluster.openBucket('ottoman', '902100')
 const ottoman = require('ottoman')
 ottoman.store = new ottoman.CbStoreAdapter(bucket, couchbase)
 
-exports = {bucket, ottoman}
+export {
+  bucket,
+  ottoman
+}
