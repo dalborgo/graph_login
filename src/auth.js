@@ -4,7 +4,7 @@ import util from 'util'
 const find = util.promisify(User.find.bind(User))
 export const attemptSignIn = async (email, password) => {
   const message = 'Incorrect email or password. Please try again.'
-  const user = (await find({ email }))[0]
+  const user = (await find({ email }))[0] //only unique email allowed
   if (!user || !await user.matchesPassword(password)) {
     throw new AuthenticationError(message)
   }
