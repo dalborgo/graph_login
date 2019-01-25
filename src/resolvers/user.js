@@ -1,6 +1,7 @@
 import Joi from 'joi'
 //import { UserInputError } from 'apollo-server-express'
-import { signUp } from '../schemas'
+import { signUp, signIn } from '../schemas'
+import { attemptSignIn } from '../auth'
 import { User } from '../models'
 export default {
   Query: {
@@ -41,6 +42,15 @@ export default {
       await Joi.validate(args, signUp, { abortEarly: false })
       await User.check_email(args.email)
       return User.createAndSave(args)
-    }
+    },
+    signIn: async (root, args, { req }, info) => {
+      // TODO: projection
+      await Joi.validate(args, signIn, { abortEarly: false })
+
+      const user = await attemptSignIn(args.email, args.password)
+
+
+      return user
+    },
   }
 }
