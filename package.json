@@ -15,10 +15,12 @@
   "dependencies": {
     "apollo-server-express": "^2.2.5",
     "bcryptjs": "^2.4.3",
-    "couchbase": "^2.6.1",
+    "connect-couchbase": "^0.2.10",
+    "couchbase": "^2.6.2",
     "esm": "^3.0.84",
     "express": "^4.16.4",
     "express-graphql": "^0.7.1",
+    "express-session": "^1.15.6",
     "graphql": "^14.0.2",
     "joi": "^14.3.0",
     "ottoman": "^1.0.5"

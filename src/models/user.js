@@ -1,8 +1,7 @@
 import { hashSync, compare } from 'bcryptjs'
 import util from 'util'
 const {
-  ottoman,
-  bucket,
+  ottoman
 } = require('../db')
 const _throw = m => {throw m}
 const User = ottoman.model('User', {
