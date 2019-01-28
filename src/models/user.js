@@ -1,8 +1,8 @@
 import { hashSync, compare } from 'bcryptjs'
 import util from 'util'
-const {
+import {
   ottoman
-} = require('../db')
+} from '../db'
 const _throw = m => {throw m}
 const User = ottoman.model('User', {
   username: {type: 'string', readonly: true},
@@ -18,10 +18,12 @@ User.pre('save', function (user, next) {
 })
 const create = util.promisify(User.create.bind(User))
 const count = util.promisify(User.count.bind(User))
+const getById = util.promisify(User.getById.bind(User))
+const find = util.promisify(User.find.bind(User))
 User.check_email = async email => await count({ email }) && _throw('Duplicated: ' + email)
-
 User.createAndSave = async args => await create({...args})
-
+User.byId = async id => await getById(id)
+User.search = async filter => await find(filter)
 User.prototype.matchesPassword = function (password) {
   return compare(password, this.password)
 }

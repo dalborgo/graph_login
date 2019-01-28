@@ -4,6 +4,7 @@ import { bucket } from './db'
 import { ApolloServer } from 'apollo-server-express'
 import typeDefs from './typeDefs'
 import resolvers from './resolvers'
+import schemaDirectives from './directives'
 
 const CouchbaseStore = require('connect-couchbase')(session)
 const APP_PORT = 3000
@@ -23,12 +24,13 @@ bucket.on('connect', () => {
     cookie: {maxAge: 30 * 60 * 1000},//{maxAge:24*60*60*1000},
     resave: false,
     //rolling: true,
-    saveUninitialized: true
+    saveUninitialized: false
   }))
 
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    schemaDirectives,
     playground: IN_PROD ? false : {
       settings: {
         'request.credentials': 'include'
@@ -36,7 +38,7 @@ bucket.on('connect', () => {
     },
     context: ({ req, res }) => ({ req, res })
   })
-  server.applyMiddleware({app, cors: true})
+  server.applyMiddleware({app, cors: false})
   app.listen({port: APP_PORT}, () => {
       console.log(`http://localhost:${APP_PORT}${server.graphqlPath}`)
     }

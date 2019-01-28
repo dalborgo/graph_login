@@ -1,0 +1,25 @@
+directive @auth on FIELD_DEFINITION
+directive @guest on FIELD_DEFINITION
+
+type Mutation {
+  _: String
+  signUp(email: String!, username: String!, name: String!, password: String!): User
+  signIn(email: String!, password: String!): User
+  signOut: Boolean
+}
+
+type Query {
+  _: String
+  me: User
+  user(id: ID!): User
+  users: [User!]!
+}
+
+type User {
+  id: ID!
+  email: String!
+  username: String!
+  name: String!
+  createdAt: String!
+}
+

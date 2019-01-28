@@ -1,65 +1,34 @@
 import Joi from 'joi'
-//import { UserInputError } from 'apollo-server-express'
 import { signUp, signIn } from '../schemas'
-import { attemptSignIn, signOut, ensureSignedIn, ensureSignedOut } from '../auth'
+import { attemptSignIn, signOut} from '../auth'
 import { User } from '../models'
 
 export default {
   Query: {
     me: (root, args, {req}, info) => {
-      ensureSignedIn(req)
-      return User.findById(req.session.userId)
+      const {userId} = req.session
+      return User.byId(userId)
     },
     users: (root, args, {req}, info) => {
-      ensureSignedIn(req)
-      return new Promise((resolve, reject) => {
-        User.find({}, function (err, users) {
-          if (err) {
-            reject(err)
-          }
-          resolve(users)
-        })
-      })
+      return User.search({})
     },
     user: (root, {id}, {req}, info) => {
-      ensureSignedIn(req)
-      return new Promise((resolve, reject) => {
-        User.getById(id, function (err, user) {
-          if (err) {
-            reject(err)
-          } else {
-            resolve(user)
-          }
-        })
-      })
+      return User.byId(id)
     }
   },
   Mutation: {
     signUp: async (root, args, {req}, info) => {
-      ensureSignedOut(req)
       await Joi.validate(args, signUp, {abortEarly: false})
       await User.check_email(args.email)
-      const user = User.createAndSave(args)
-      req.session.userId = user.id
+      const user = await User.createAndSave(args)
+      req.session.userId = user.id()
       return user
     },
     signIn: async (root, args, {req}, info) => {
-      const {userId} = req.session
-      if (userId) {
-        return new Promise((resolve, reject) => {
-          User.getById(userId, function (err, user) {
-            if (err) {
-              reject(err)
-            } else {
-              resolve(user)
-            }
-          })
-        })
-      }
       await Joi.validate(args, signIn, {abortEarly: false})
 
       const user = await attemptSignIn(args.email, args.password)
-      req.session.userId = user.id
+      req.session.userId = user.id()
 
       return user
     },
