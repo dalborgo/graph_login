@@ -21,9 +21,13 @@ bucket.on('connect', () => {
     name: 'MYSESSION',
     store: couchbaseStore,
     secret: 'aplocandiemete',
-    cookie: {maxAge: 30 * 60 * 1000},//{maxAge:24*60*60*1000},
-    resave: false,
-    //rolling: true,
+    cookie: {
+      maxAge: 15 * 60 * 1000,
+      sameSite: true,
+      secure: false //true if https server
+    },//{maxAge:24*60*60*1000},
+    resave: true,
+    rolling: true,
     saveUninitialized: false
   }))
 
