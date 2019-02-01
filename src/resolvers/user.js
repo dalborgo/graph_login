@@ -1,8 +1,8 @@
 import Joi from 'joi'
 import { signUp, signIn } from '../schemas'
 import { attemptSignIn, signOut } from '../auth'
-import { User, Chat } from '../models'
-import {ottoman} from '../db'
+import { User } from '../models'
+
 export default {
   Query: {
     me: (root, args, {req}, info) => {
@@ -28,7 +28,7 @@ export default {
       await Joi.validate(args, signIn, {abortEarly: false})
 
       const user = await attemptSignIn(args.email, args.password)
-     // const chat = await Chat.createAndSave({user: User.ref(user.id())})
+
       req.session.userId = user.id()
 
       return user
