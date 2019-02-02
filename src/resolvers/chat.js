@@ -1,5 +1,5 @@
-//import Joi from 'joi'
-//import { signUp, signIn } from '../schemas'
+import Joi from 'joi'
+import { startChat } from '../schemas'
 import { UserInputError } from 'apollo-server-express'
 import { Chat, User } from '../models'
 
@@ -16,7 +16,7 @@ export default {
     startChat: async (root, args, {req}, info) => {
       let {title, userIds} = args
       const {userId} = req.session
-      userIds=[...new Set(userIds)]
+      await Joi.validate(args, startChat(userId), {abortEarly: false})
       const other_user = userIds.map(u => User.ref(u))
       const users=other_user.concat([ User.ref(userId)])
       await User.getAll(users)

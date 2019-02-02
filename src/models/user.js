@@ -19,7 +19,7 @@ getFunctions.call(User)
 
 User.pre('save', function (user, next) {
   //fixme capire come non ricriptare la password
-  if(this.password && this.password.length <= 50){
+  if(this.password && this.password.length !== 60){
     this.password = hashSync(this.password, 10)
   }
   this.updateAt = new Date()
