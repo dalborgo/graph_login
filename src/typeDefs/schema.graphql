@@ -1,0 +1,59 @@
+directive @auth on FIELD_DEFINITION
+
+directive @guest on FIELD_DEFINITION
+
+directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT | INTERFACE
+
+enum CacheControlScope {
+    PUBLIC
+    PRIVATE
+}
+
+type Chat {
+    id: ID!
+    title: String!
+    users: [User!]!
+    lastMessage: Message
+    createdAt: String!
+    updateAt: String!
+}
+
+type Message {
+    id: ID!
+    sender: User!
+    chat: Chat!
+    createdAt: String!
+    updateAt: String!
+}
+
+type Mutation {
+    _: String
+    signUp(email: String!, username: String!, name: String!, password: String!): User
+    signIn(email: String!, password: String!): User
+    signOut: Boolean
+    startChat(title: String, userIds: [ID!]!): Chat
+}
+
+type Query {
+    _: String
+    me: User
+    user(id: ID!): User
+    users: [User!]!
+}
+
+type Subscription {
+    _: String
+}
+
+scalar Upload
+
+type User {
+    id: ID!
+    email: String!
+    username: String!
+    chats: [Chat]!
+    name: String!
+    createdAt: String!
+    updateAt: String!
+}
+
