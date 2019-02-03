@@ -8,6 +8,7 @@ export default gql`
         id: ID!
         title: String!
         users: [User!]!
+        messages: [Message!]!
         lastMessage: Message
         createdAt: String!
         updateAt: String!

@@ -1,6 +1,6 @@
 import express from 'express'
 import session from 'express-session'
-import { bucket } from './db'
+import { bucket, ottoman } from './db'
 import { ApolloServer } from 'apollo-server-express'
 import typeDefs from './typeDefs'
 import resolvers from './resolvers'
@@ -25,7 +25,7 @@ bucket.on('connect', () => {
       maxAge: 15 * 60 * 1000,
       sameSite: true,
       secure: false //true if https server
-    },//{maxAge:24*60*60*1000},
+    },
     resave: true,
     rolling: true,
     saveUninitialized: false
@@ -42,9 +42,8 @@ bucket.on('connect', () => {
     },
     context: ({ req, res }) => ({ req, res })
   })
-  server.applyMiddleware({app, cors: false})
-  app.listen({port: APP_PORT}, () => {
-      console.log(`http://localhost:${APP_PORT}${server.graphqlPath}`)
-    }
-  )
+  server.applyMiddleware({ app, cors: false })
+  app.listen({ port: APP_PORT }, () => {
+    console.log(`http://localhost:${APP_PORT}${server.graphqlPath}`)
+  })
 })

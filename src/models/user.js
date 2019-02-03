@@ -4,7 +4,6 @@ import {
   ottoman
 } from '../db'
 import { getFunctions } from './helpers'
-
 const _throw = m => {throw m}
 const User = ottoman.model('User', {
   username: {type: 'string', readonly: true},
@@ -40,13 +39,6 @@ User.prototype.expand = async function (path) {
   const load = util.promisify(this.load.bind(this))
   await load(path)
 }
-
-/*ottoman.ensureIndices(function (err) {
-  if (err) {
-    return console.error('Error ensure indices Places', err)
-  }
-  console.log('Ensure indices Places')
-})*/
 
 export default User
 

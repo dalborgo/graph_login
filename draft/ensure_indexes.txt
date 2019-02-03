@@ -1,0 +1,12 @@
+ ottoman.ensureIndices(function (err) {
+      if (err) {
+        return console.error('Error ensure indices places!', err)
+      }
+      console.log('Ensure indices places!')
+      bucket.manager().buildDeferredIndexes(function (err) {
+        if (err) {
+          return console.error('Error build indexes', err)
+        }
+        console.log('Built indexes!')
+      })
+    })

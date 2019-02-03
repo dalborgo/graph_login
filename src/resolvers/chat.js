@@ -1,7 +1,7 @@
 import Joi from 'joi'
 import { startChat } from '../schemas'
 import { UserInputError } from 'apollo-server-express'
-import { Chat, User } from '../models'
+import { Chat, User, Message } from '../models'
 
 async function updateUsers(users, ref) {
   const promises =users.map(u => {
@@ -31,10 +31,13 @@ export default {
     }
   },
   Chat : {
+    messages : async (chat, args, context, info) =>{
+      return Message.search({chat:chat.id()})
+    },
     users : async (chat, args, context, info) =>{
       await chat.expand('users')
       return chat.users
-    } ,
+    },
     lastMessage : async (chat, args, context, info) =>{
       await chat.expand('lastMessage')
       return chat.lastMessage
