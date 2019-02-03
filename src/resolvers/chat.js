@@ -29,5 +29,15 @@ export default {
       await updateUsers(users, chat_ref)
       return chat
     }
+  },
+  Chat : {
+    users : async (chat, args, context, info) =>{
+      await chat.expand('users')
+      return chat.users
+    } ,
+    lastMessage : async (chat, args, context, info) =>{
+      await chat.expand('lastMessage')
+      return chat.lastMessage
+    }
   }
 }

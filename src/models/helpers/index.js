@@ -7,8 +7,8 @@ export function getFunctions () {
   const count = util.promisify(this.count.bind(this))
   const loadAll = util.promisify(this.loadAll.bind(this))
   this.createAndSave = async args => await create({...args})
-  this.byId = async (id, load) => await getById(id, load)
+  this.byId = async id => await getById(id)
   this.how_many =  async filter => await count(filter)
-  this.search = async (filter = {}, option) => await find(filter, option)
+  this.search = async (filter = {}, option={}) => await find(filter, option)
   this.getAll = async instances => await loadAll(instances)
 }

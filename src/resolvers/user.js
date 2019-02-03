@@ -36,5 +36,11 @@ export default {
     signOut: (root, args, {req, res}, info) => {
       return signOut(req, res)
     }
+  },
+  User : {
+    chats : async (user, args, context, info) =>{
+      await user.expand('chats')
+      return user.chats
+    }
   }
 }

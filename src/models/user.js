@@ -36,6 +36,11 @@ User.prototype.commit = async function () {
   await save()
 }
 
+User.prototype.expand = async function (path) {
+  const load = util.promisify(this.load.bind(this))
+  await load(path)
+}
+
 /*ottoman.ensureIndices(function (err) {
   if (err) {
     return console.error('Error ensure indices Places', err)
