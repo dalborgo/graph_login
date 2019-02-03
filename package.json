@@ -23,7 +23,7 @@
     "express-session": "^1.15.6",
     "graphql": "^14.0.2",
     "joi": "^14.3.0",
-    "ottoman": "^1.0.5"
+    "ottoman-in": "^1.2.4"
   },
   "devDependencies": {
     "get-graphql-schema": "^2.1.2",

@@ -2629,10 +2629,10 @@ osenv@^0.1.4:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
-ottoman@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/ottoman/-/ottoman-1.0.5.tgz#47f703c3cc989bddf43d55911ddd3cb1c13135cd"
-  integrity sha512-clWLUwHJC1Ma63Ha6r7dyg2NSczfSmS/AcGF2vM2zvNwAa0gN/1sHGXVl/beo4TP6vvvQWk3uN4y1QProdfZKA==
+ottoman-in@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/ottoman-in/-/ottoman-in-1.2.4.tgz#d9be625e7ba9073cd82ceaea309abc378e373200"
+  integrity sha1-2b5iXnupBzzYLOrqMJq8N443MgA=
   dependencies:
     bluebird "^3.4.1"
     jsonpath "~0.2.2"
