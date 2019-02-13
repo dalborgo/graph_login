@@ -12,6 +12,14 @@ const Chat = ottoman.model('Chat', {
   lastMessage: { ref: 'Message' },
   createdAt: { type: 'Date', default: Date.now },
   updateAt: 'Date'
+}, {
+  queries: {
+    myMessages: {
+      type: 'n1ql',
+      of: 'Message',
+      by: 'chat'
+    }
+  }
 })
 getFunctions.call(Chat)
 const USER_LIMIT = 5
@@ -31,6 +39,10 @@ Chat.pre('save', async function (chat, next) {
 Chat.prototype.expand = async function (path) {
   const load = util.promisify(this.load.bind(this))
   await load(path)
+}
+Chat.prototype.getMessages = async function () {
+  const getMessages = util.promisify(this.myMessages.bind(this))
+  return await getMessages()
 }
 
 export default Chat

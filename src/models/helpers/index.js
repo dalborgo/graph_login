@@ -1,4 +1,4 @@
-import util from "util"
+import util from 'util'
 
 export function getFunctions () {
   const create = util.promisify(this.create.bind(this))
@@ -8,7 +8,7 @@ export function getFunctions () {
   const loadAll = util.promisify(this.loadAll.bind(this))
   this.createAndSave = async args => await create({...args})
   this.byId = async id => await getById(id)
-  this.how_many =  async filter => await count(filter)
-  this.search = async (filter = {}, option={}) => await find(filter, option)
+  this.how_many = async (filter = {}, option = {}) => await count(filter, option)
+  this.search = async (filter = {}, option = {}) => await find(filter, option)
   this.getAll = async instances => await loadAll(instances)
 }

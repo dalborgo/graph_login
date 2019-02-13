@@ -40,10 +40,22 @@ bucket.on('connect', () => {
         'request.credentials': 'include'
       }
     },
-    context: ({ req, res }) => ({ req, res })
+    context: ({req, res}) => ({req, res})
   })
-  server.applyMiddleware({ app, cors: false })
-  app.listen({ port: APP_PORT }, () => {
+  server.applyMiddleware({app, cors: false})
+  app.listen({port: APP_PORT}, () => {
+    /* ottoman.ensureIndices(function (err) {
+       if (err) {
+         return console.error('Error ensure indices places!', err)
+       }
+       console.log('Ensure indices places!')
+       bucket.manager().buildDeferredIndexes(function (err) {
+         if (err) {
+           return console.error('Error build indexes', err)
+         }
+         console.log('Built indexes!')
+       })
+     })*/
     console.log(`http://localhost:${APP_PORT}${server.graphqlPath}`)
   })
 })

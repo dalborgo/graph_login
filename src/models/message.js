@@ -1,4 +1,4 @@
-import {getFunctions} from './helpers'
+import { getFunctions } from './helpers'
 import {
   ottoman
 } from '../db'

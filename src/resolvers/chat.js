@@ -12,6 +12,11 @@ async function updateUsers (users, ref) {
 }
 
 export default {
+  Query: {
+    chats: (root, args, {req}, info) => {
+      return Chat.search({})
+    }
+  },
   Mutation: {
     startChat: async (root, args, { req }, info) => {
       let { title, userIds } = args
@@ -25,6 +30,7 @@ export default {
         throw new UserInputError('ID utente non trovato!')
       }
       const chat = await Chat.createAndSave({ title, users })
+      //const message = await Message.createAndSave({ sender:User.ref(userId) , chat })
       const chat_ref = Chat.ref(chat.id())
       await updateUsers(users, chat_ref)
       return chat
@@ -32,7 +38,8 @@ export default {
   },
   Chat: {
     messages: async (chat, args, context, info) => {
-      return Message.search({ chat: Chat.ref(chat.id()) })
+      //return Message.search({ chat: Chat.ref(chat.id()) })
+      return chat.getMessages()
     },
     users: async (chat, args, context, info) => {
       await chat.expand('users')

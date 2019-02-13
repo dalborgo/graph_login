@@ -3,6 +3,8 @@ import { signUp, signIn } from '../schemas'
 import { attemptSignIn, signOut } from '../auth'
 import { User } from '../models'
 
+
+//todo togli async dal me
 export default {
   Query: {
     me: (root, args, {req}, info) => {
